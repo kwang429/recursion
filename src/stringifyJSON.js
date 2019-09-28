@@ -19,7 +19,7 @@ var stringifyJSON = function(obj) {
 
   } else if (typeof obj === "string") {
 	return '"' + obj + '"';		// add quotes to each side
- 
+
   } else if (Array.isArray(obj)) {
 	var stringedArray = "";
 
@@ -50,27 +50,26 @@ var stringifyJSON = function(obj) {
 	  var keyArray = Object.keys(obj);
 	  var objLength = Object.keys(obj).length;
 
-  	if (objLength === 0) {
-		return "{}"
-
-	} else if (objLength === 1) {
-		stringedObj = "{" + stringifyJSON(keyArray[0]) + ":" + stringifyJSON(obj[keyArray[0]]) + "}";
+  	if (objLength === 1) {
+		stringedObj = stringifyJSON(keyArray[0]) + ":" + stringifyJSON(obj[keyArray[0]]);
 
 	} else if (objLength > 1) {
-		stringedObj = "{";
 
 		for (var key in obj) {
-			if (key === keyArray[keyArray.length - 1]) {	// if it's the last key in the obj
-				stringedObj += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + "}";
+			if (key === "undefined" || (typeof obj[key] === "function")) {
+				continue;
+
+			} else if (key === keyArray[keyArray.length - 1]) {	// if it's the last key in the obj
+				stringedObj += stringifyJSON(key) + ":" + stringifyJSON(obj[key]);
 			
 			} else {
 				stringedObj += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + ",";
-				
+
 			}
 		}
 	}
-
-	return stringedObj;
-}
+	
+	return "{" + stringedObj + "}";
+  }
 
 };
