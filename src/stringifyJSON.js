@@ -47,11 +47,30 @@ var stringifyJSON = function(obj) {
 
   } else if (typeof obj === "object") {
 	  var stringedObj = "";
+	  var keyArray = Object.keys(obj);
+	  var objLength = Object.keys(obj).length;
 
-  	if (Object.keys(obj).length === 0) {
+  	if (objLength === 0) {
 		return "{}"
 
+	} else if (objLength === 1) {
+		stringedObj = "{" + stringifyJSON(keyArray[0]) + ":" + stringifyJSON(obj[keyArray[0]]) + "}";
+
+	} else if (objLength > 1) {
+		stringedObj = "{";
+
+		for (var key in obj) {
+			if (key === keyArray[keyArray.length - 1]) {	// if it's the last key in the obj
+				stringedObj += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + "}";
+			
+			} else {
+				stringedObj += stringifyJSON(key) + ":" + stringifyJSON(obj[key]) + ",";
+				
+			}
+		}
 	}
+
+	return stringedObj;
 }
 
 };
