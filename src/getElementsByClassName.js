@@ -18,7 +18,7 @@ var getElementsByClassName = function(className) {
     // check if currNode has class(es)
     if (currNode.classList) {
         if (currNode.classList.contains(className)) {
-            result.push(currNode);
+            resultArr.push(currNode);
         }
 
     }
